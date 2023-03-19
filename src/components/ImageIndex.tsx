@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 function ImageIndex() {
     return (
@@ -42,12 +43,15 @@ function ImageIndex() {
             />
           </div>
           <div className="flex items-center justify-between">
-            <button
+            <Link href="/server"><button
               className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-            >
+              >
               Sign In
-            </button>
+
+              </button>
+            
+              </Link>
             <a
               className="inline-block align-baseline font-bold text-sm text-gray-800 hover:text-gray-700"
               href="#"

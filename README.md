@@ -1,28 +1,26 @@
-# Create T3 App
+# ConnectMe - A Comprehensive Learning Platform
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+ConnectMe is a comprehensive, full-stack application that aims to enhance the learning experience of students by providing them with a centralized platform for accessing news, course information, and communication tools.
 
-## What's next? How do I make an app with this?
+# Prerequisites
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Before you begin, make sure you have the following installed:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+ - Node.js (v14 or later)
+ - npm (v6 or later)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+# Start the developement enviroment
 
-## Learn More
+1. You need to navigate to the source code directory(code)
+2. Install the dependencies: <br>
+`npm install`
+3. In order to run the app locally you can use: <br>
+`npm start`
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+# Database connection
 
-## How do I deploy this?
+My database is already hosted using the Google Cloud platform if you want to connect to mine send me a message with you ip adress so I can give you acces and the app will automatically connect to mine.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+The other way is to start any sort of postgres database locally and just change the `DATABASE_URL` field in `.env` file.  The app will automatically connec to the new database and create the schema there.

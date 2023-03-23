@@ -1,80 +1,65 @@
-import { useState } from "react";
-import { prisma } from "~/server/db";
+import { useState, ChangeEvent, FormEvent } from "react";
+import { api } from "~/utils/api";
 
 function ServerForm() {
+  const createServer = api.server.createServer.useMutation()
   const [formData, setFormData] = useState({
-    courseName: "",
-    courseDescription: "",
+    name: "",
+    description: "",
     faculty: "",
-    year: "",
-    semester: "",
+    year: 0 ,
+    semester: 0,
     importance: "",
     additionalInfo: "",
     usefulLinks: "",
   });
 
-  const handleChange = (event: { target: { name: any; value: any; }; }) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault()
-
-  try {
-    const formInput = await prisma.FormInput.create({
-      data: {
-        courseName: formData.courseName,
-        courseDescription: formData.courseDescription,
-        faculty: formData.faculty,
-        year: formData.year,
-        semester: formData.semester,
-        importance: formData.importance,
-        additionalInfo: formData.additionalInfo,
-        usefulLinks: formData.usefulLinks
-      }
-    })
-
-    console.log('Created new form input:', formInput)
-  } catch (error) {
-    console.error('Error creating form input:', error)
+  const handleChangeNumber = (event: ChangeEvent<HTMLInputElement>) = {
+    const{ name,  } = event.target;
   }
-}
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    
+    createServer.mutate({...formData})
+  };
+
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
     <div className="w-full max-w-screen-xl px-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Course Form</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="courseName">
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
               Course Name
             </label>
             <input
               className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="courseName"
+              id="name"
               type="text"
-              name="courseName"
-              value={formData.courseName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="Enter course name"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="courseDescription">
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
               Course Description
             </label>
             <textarea
               className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="courseDescription"
-              name="courseDescription"
-              value={formData.courseDescription}
+              id="description"
+              name="description"
+              value={formData.description}
               onChange={handleChange}
               placeholder="Enter course description"
               required
@@ -177,6 +162,4 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 </div>
 </div>
 );  }
-
-
 export default ServerForm;

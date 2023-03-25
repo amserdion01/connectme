@@ -21,8 +21,13 @@ function ServerForm() {
       [name]: value,
     }));
   };
-  const handleChangeNumber = (event: ChangeEvent<HTMLInputElement>) = {
-    const{ name,  } = event.target;
+
+  const handleChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
+    const{ name, valueAsNumber } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: valueAsNumber,
+    }));
   }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +95,7 @@ function ServerForm() {
               type="number"
               name="year"
               value={formData.year}
-              onChange={handleChange}
+              onChange={handleChangeNumber}
               placeholder="Enter year"
               required
             />
@@ -105,7 +110,7 @@ function ServerForm() {
         type="number"
         name="semester"
         value={formData.semester}
-        onChange={handleChange}
+        onChange={handleChangeNumber}
         placeholder="Enter semester"
         required
       />

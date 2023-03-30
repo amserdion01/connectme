@@ -14,7 +14,6 @@ return(
       <div className="flex justify-around items-center">
          <SearchServer onSearch={handleSearch}/>
          <AddServer/>
-         <CreateSomeData/>
          <div>
             <IoPersonCircle size = '3rem'/>
          </div>

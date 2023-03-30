@@ -1,8 +1,12 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { api } from "~/utils/api";
 
+
+const server: FormData [] = []
 function ServerForm() {
   const createServer = api.server.createServer.useMutation()
+
+  
   const [formData, setFormData] = useState({
     name: "",
     description: "",

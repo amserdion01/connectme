@@ -4,6 +4,7 @@ import ServerList from "~/components/ServerList";
 import SearchServer from "~/components/SearchServer";
 import { useState } from "react";
 import {IoPersonCircle} from "react-icons/io5"
+import CreateSomeData from "~/components/MockData";
 const Server: NextPage = () => {
 const [filter, setFilter] = useState<string | undefined>(undefined)
 const handleSearch = (searchTerm: string) => {setFilter(searchTerm)}
@@ -13,6 +14,7 @@ return(
       <div className="flex justify-around items-center">
          <SearchServer onSearch={handleSearch}/>
          <AddServer/>
+         <CreateSomeData/>
          <div>
             <IoPersonCircle size = '3rem'/>
          </div>

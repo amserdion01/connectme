@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
 
   return (
-    <form className=" max-w-md my-4">
+    <form className="max-w-md my-4">
       <div className="flex items-center bg-gray-800 rounded-lg overflow-hidden">
         <input
           className="appearance-none bg-transparent w-full text-gray-200 py-2 px-4 leading-tight focus:outline-none"
@@ -27,7 +27,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           value={searchTerm}
           onChange={handleChange}
         />
-
       </div>
     </form>
   );

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React from 'react';
 import { FaUser, FaEnvelope, FaThLarge } from 'react-icons/fa';
 import { FaRegUser, FaRegEnvelope } from 'react-icons/fa';
@@ -35,15 +35,15 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   onMessageClick,
   onPostsClick,
 }) => {
-  const router = useRouter();
-
   return (
     <div className="p-4 rounded-lg shadow-md bg-gray-100 w-full flex justify-around items-center">
-      {renderButton(() => router.back(), false, BsArrowLeftCircle, BsArrowLeftCircleFill)}
+      {renderButton(() => {}, false, BsArrowLeftCircle, BsArrowLeftCircleFill)}
       {renderButton(onPostsClick, selected === 'posts', RiHome2Line, RiHome2Fill)}
       {renderButton(onAboutClick, selected === 'about', BsInfoCircle, BsInfoCircleFill)}
       {renderButton(onMessageClick, selected === 'message', FaRegEnvelope, FaEnvelope)}
-      {renderButton(onProfileClick, selected === 'profile', FaRegUser, FaUser)}
+      <Link href="/profile">
+        {renderButton(onProfileClick, selected === 'profile', FaRegUser, FaUser)}
+      </Link>
     </div>
   );
 };

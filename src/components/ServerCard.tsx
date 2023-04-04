@@ -3,19 +3,6 @@ import Link from 'next/link';
 import React from 'react'
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
-const renderStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        i <= rating ? (
-          <FaStar key={i} className="text-yellow-400" />
-        ) : (
-          <FaRegStar key={i} className="text-gray-400" />
-        )
-      );
-    }
-    return stars;
-  }
 const ServerCard : React.FC <{server: Server}> = ({server}) => {
     console.log(server)
     const stars = Array(5)

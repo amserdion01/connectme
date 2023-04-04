@@ -1,5 +1,8 @@
+import router from "next/router";
 import { useState, ChangeEvent, FormEvent } from "react";
+import { BsArrowLeftCircle } from "react-icons/bs";
 import { api } from "~/utils/api";
+import BackButton from "./BackButton";
 
 
 const server: FormData [] = []
@@ -169,6 +172,8 @@ function ServerForm() {
     </div>
   </form>
 </div>
+<BackButton/>
 </div>
+
 );  }
 export default ServerForm;

@@ -1,48 +1,58 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
-import React from 'react';
-import HeaderBar from '~/components/HeaderBar';
-import { api } from '~/utils/api';
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
+import React from "react";
+import HeaderBar from "~/components/HeaderBar";
+import { api } from "~/utils/api";
 
 interface QParams extends ParsedUrlQuery {
   id: string;
 }
 
 const ServerPage: NextPage = () => {
-  const [selectedIcon, setSelectedIcon] = React.useState<'about' | 'profile' | 'message' | 'posts'>('about');
+  const deleteServer = api.server.deleteServerById.useMutation();
+
+  const [selectedIcon, setSelectedIcon] = React.useState<
+    "about" | "profile" | "message" | "posts"
+  >("about");
   const router = useRouter();
   const { id } = router.query as QParams;
   const server = api.server.getServerById.useQuery({ id });
   const Spinner = () => (
-    <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+    <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-solid border-blue-500"></div>
   );
 
   if (!server.data) {
     return (
-      <div className="min-h-screen w-screen bg-gray-100 flex justify-center items-center">
+      <div className="flex min-h-screen w-screen items-center justify-center bg-gray-100">
         <Spinner />
       </div>
     );
   }
   const handleAboutClick = () => {
-    setSelectedIcon('about');
-    console.log('about icon clicked');
+    setSelectedIcon("about");
+    console.log("about icon clicked");
   };
 
   const handleProfileClick = () => {
-    setSelectedIcon('profile');
-    console.log('Profile icon clicked');
+    setSelectedIcon("profile");
+    console.log("Profile icon clicked");
   };
 
   const handleMessageClick = () => {
-    setSelectedIcon('message');
-    console.log('Message icon clicked');
+    setSelectedIcon("message");
+    console.log("Message icon clicked");
   };
 
   const handlePostsClick = () => {
-    setSelectedIcon('posts');
-    console.log('Posts icon clicked');
+    setSelectedIcon("posts");
+    console.log("Posts icon clicked");
+  };
+  const handleDeleteClick = async () => {
+    if (window.confirm("Are you sure you want to delete this server?")) {
+      await deleteServer.mutate({ id });
+      router.push("/server"); 
+    }
   };
 
   return (
@@ -54,38 +64,40 @@ const ServerPage: NextPage = () => {
         onMessageClick={handleMessageClick}
         onPostsClick={handlePostsClick}
       />
-      <div className="p-6 rounded-lg shadow-md bg-white w-full max-w-3xl mx-auto my-4">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">{server.data.name}</h2>
-        <p className="text-gray-700 mb-4">{server.data.description}</p>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="mx-auto my-4 w-full max-w-3xl rounded-lg bg-white p-6 shadow-md">
+        <h2 className="mb-4 text-2xl font-bold text-gray-800">
+          {server.data.name}
+        </h2>
+        <p className="mb-4 text-gray-700">{server.data.description}</p>
+        <div className="mb-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-gray-700 font-bold">Faculty</p>
+            <p className="font-bold text-gray-700">Faculty</p>
             <p>{server.data.faculty}</p>
           </div>
           <div>
-            <p className="text-gray-700 font-bold">Year & Semester</p>
+            <p className="font-bold text-gray-700">Year & Semester</p>
             <p>
               {server.data.year} - {server.data.semester}
             </p>
           </div>
         </div>
         <div className="mb-4">
-          <p className="text-gray-700 font-bold">Rating</p>
+          <p className="font-bold text-gray-700">Rating</p>
           <p>{server.data.rating}/5</p>
         </div>
         <div className="mb-4">
-          <p className="text-gray-700 font-bold">Importance</p>
+          <p className="font-bold text-gray-700">Importance</p>
           <p>{server.data.importance}</p>
         </div>
         {server.data.additionalInfo && (
           <div className="mb-4">
-            <p className="text-gray-700 font-bold">Additional Information</p>
+            <p className="font-bold text-gray-700">Additional Information</p>
             <p>{server.data.additionalInfo}</p>
           </div>
         )}
         {server.data.usefulLinks && (
           <div>
-            <p className="text-gray-700 font-bold">Useful Links</p>
+            <p className="font-bold text-gray-700">Useful Links</p>
             <a
               href={server.data.usefulLinks}
               target="_blank"
@@ -96,6 +108,14 @@ const ServerPage: NextPage = () => {
             </a>
           </div>
         )}
+        <div className="mb-4 flex justify-end">
+          <button
+            className="focus:shadow-outline rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
+            onClick={handleDeleteClick}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

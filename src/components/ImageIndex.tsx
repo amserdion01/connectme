@@ -68,6 +68,17 @@ function ImageIndex() {
             </button>
           </Link>
           </div>
+          <div className="mt-4 flex items-center justify-center">
+  <span className="text-gray-800 font-bold mr-2">
+    Don't have an account yet?
+  </span>
+  <Link href="/register">
+    <div className="text-grey-200 hover:text-gray-600 font-bold">
+      Register here
+    </div>
+  </Link>
+</div>
+
         </form>
       </div>
     </div>

@@ -43,18 +43,33 @@ export const serverRouter = createTRPCRouter({
             } return servers;
         }),
     getServerById: publicProcedure
-        .input(z.object({id: z.string()})).query(async({
+        .input(z.object({ id: z.string() })).query(async ({
             input
         }) => {
-            const server =  await prisma.server.findFirst({where:{id:input.id}})
+            const server = await prisma.server.findFirst({ where: { id: input.id } })
             if (!server) {
-            throw new TRPCError({
-                code: "BAD_REQUEST",
-                message: `Server not found (id ='(${input.id})' )`
-            })
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: `Server not found (id ='(${input.id})' )`
+                })
 
             }
             return server
-        })
+        }),
+    deleteServerById: publicProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(async ({ input }) => {
+            const serverToDelete = await prisma.server.findFirst({ where: { id: input.id } });
+
+            if (!serverToDelete) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: `Server not found (id ='(${input.id})' )`,
+                });
+            }
+
+            await prisma.server.delete({ where: { id: input.id } });
+            return { message: `Server with id '${input.id}' has been deleted.` };
+        }),
 
 })

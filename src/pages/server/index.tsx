@@ -9,6 +9,7 @@ import router, { useRouter } from "next/router";
 
 import Link from "next/link";
 import BackButton from "~/components/BackButton";
+import BackButtonFull from "~/components/BackButtonFull";
 const Server: NextPage = () => {
   const [filter, setFilter] = useState<string | undefined>(undefined);
   const handleSearch = (searchTerm: string) => {
@@ -19,7 +20,7 @@ const Server: NextPage = () => {
     <div className="min-h-screen w-screen bg-gray-200">
       <div className=" flex flex-col">
         <div className="flex items-center justify-around">
-          <BackButton/>
+          <BackButtonFull/>
 
           <SearchServer onSearch={handleSearch} />
           <AddServer />

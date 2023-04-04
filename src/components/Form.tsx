@@ -40,6 +40,8 @@ function ServerForm() {
     e.preventDefault();
 
     createServer.mutate({...formData})
+    router.push("/server"); 
+
   };
 
 

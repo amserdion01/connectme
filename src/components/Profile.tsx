@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
           <div className="absolute inset-0 bg-black opacity-25"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <div className="w-28 h-28 bg-gray-100 rounded-full mb-4"></div>
-            <h1 className="text-4xl font-bold text-white mb-0">{`${'Jenny'} ${'Doe'}`}</h1>
+            <h1 className="text-4xl font-bold text-white mb-0">{`${'Marius'} ${'Gurita'}`}</h1>
             <p className="text-lg text-gray-200 mb-4">Software Developer</p>
           </div>
         </div>
@@ -22,8 +22,7 @@ const Profile: React.FC = () => {
 
           <BackButton/>
           <p className="text-lg mb-8 text-gray-700">
-            Hi, I'm Jenny Doe! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at
-            scelerisque massa. Fusce eleifend ante vel turpis placerat, ac ultricies elit pretium.
+            Hello! My name is Marius Alexandru Gurita, I am a Software Developer.
           </p>
           <div className="space-y-4">
             <div className="flex items-center space-x-2">

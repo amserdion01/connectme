@@ -4,24 +4,27 @@ import { BsArrowLeftCircle } from "react-icons/bs";
 import { api } from "~/utils/api";
 import BackButton from "./BackButton";
 
-
-const server: FormData [] = []
+const server: FormData[] = [];
 function ServerForm() {
-  const createServer = api.server.createServer.useMutation()
+  const createServer = api.server.createServer.useMutation();
 
-  
+  const [selectedSemester, setSelectedSemester] = useState("1");
+  const [selectedYear, setSelectedYear] = useState("1");
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     faculty: "",
-    year: 0 ,
-    semester: 0,
+    year: 1,
+    semester: 1,
     importance: "",
     additionalInfo: "",
     usefulLinks: "",
   });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -29,33 +32,26 @@ function ServerForm() {
     }));
   };
 
-  const handleChangeNumber = (event: ChangeEvent<HTMLInputElement>) => {
-    const{ name, valueAsNumber } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: valueAsNumber,
-    }));
-  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createServer.mutate({...formData})
-    router.push("/server"); 
-
+    createServer.mutate({ ...formData, year: parseInt(selectedYear), semester: parseInt(selectedSemester) });
+    router.push("/server");
   };
-
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-    <div className="w-full max-w-screen-xl px-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Course Form</h1>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="w-full max-w-screen-xl px-6">
+        <h1 className="mb-6 text-3xl font-bold text-gray-800">Course Form</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="name"
+            >
               Course Name
             </label>
             <input
-              className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full rounded border-gray-300 py-2 px-3 leading-tight focus:outline-none"
               id="name"
               type="text"
               name="name"
@@ -66,11 +62,14 @@ function ServerForm() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="description"
+            >
               Course Description
             </label>
             <textarea
-              className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full rounded border-gray-300 py-2 px-3 leading-tight focus:outline-none"
               id="description"
               name="description"
               value={formData.description}
@@ -80,11 +79,14 @@ function ServerForm() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="faculty">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="faculty"
+            >
               Faculty
             </label>
             <input
-              className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full rounded border-gray-300 py-2 px-3 leading-tight focus:outline-none"
               id="faculty"
               type="text"
               name="faculty"
@@ -95,87 +97,104 @@ function ServerForm() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="year">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="year"
+            >
               Year
             </label>
-            <input
-              className="w-full border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            <select
+              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
               id="year"
-              type="number"
               name="year"
-              value={formData.year}
-              onChange={handleChangeNumber}
-              placeholder="Enter year"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              required
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <div className="mb-4">
+              <label
+                className="mb-2 block font-bold text-gray-700"
+                htmlFor="semester"
+              >
+                Semester
+              </label>
+              <select
+                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+                id="semester"
+                name="semester"
+                value={selectedSemester}
+                onChange={(e) => setSelectedSemester(e.target.value)}
+                required
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="importance"
+            >
+              Importance
+            </label>
+            <textarea
+              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+              id="importance"
+              name="importance"
+              value={formData.importance}
+              onChange={handleChange}
+              placeholder="Enter why this course is important"
               required
             />
           </div>
           <div className="mb-4">
-      <label className="block text-gray-700 font-bold mb-2" htmlFor="semester">
-        Semester
-      </label>
-      <input
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="semester"
-        type="number"
-        name="semester"
-        value={formData.semester}
-        onChange={handleChangeNumber}
-        placeholder="Enter semester"
-        required
-      />
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="additionalInfo"
+            >
+              Additional Information
+            </label>
+            <textarea
+              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+              id="additionalInfo"
+              name="additionalInfo"
+              value={formData.additionalInfo}
+              onChange={handleChange}
+              placeholder="Enter additional information (optional)"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="usefulLinks"
+            >
+              Useful Links
+            </label>
+            <textarea
+              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none"
+              id="usefulLinks"
+              name="usefulLinks"
+              value={formData.usefulLinks}
+              onChange={handleChange}
+              placeholder="Enter useful links (optional)"
+            />
+          </div>
+          <div className="flex items-center justify-center">
+            <button
+              className="focus:shadow-outline rounded bg-gray-800 py-2 px-4 font-bold text-white hover:bg-gray-700 focus:outline-none"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+      <BackButton />
     </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 font-bold mb-2" htmlFor="importance">
-        Importance
-      </label>
-      <textarea
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="importance"
-        name="importance"
-        value={formData.importance}
-        onChange={handleChange}
-        placeholder="Enter why this course is important"
-        required
-      />
-    </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 font-bold mb-2" htmlFor="additionalInfo">
-        Additional Information
-      </label>
-      <textarea
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="additionalInfo"
-        name="additionalInfo"
-        value={formData.additionalInfo}
-        onChange={handleChange}
-        placeholder="Enter additional information (optional)"
-      />
-    </div>
-    <div className="mb-4">
-      <label className="block text-gray-700 font-bold mb-2" htmlFor="usefulLinks">
-        Useful Links
-      </label>
-      <textarea
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="usefulLinks"
-        name="usefulLinks"
-        value={formData.usefulLinks}
-        onChange={handleChange}
-        placeholder="Enter useful links (optional)"
-      />
-    </div>
-    <div className="flex items-center justify-center">
-      <button
-        className="bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-gray-700"
-        type="submit"
-      >
-        Submit
-      </button>
-    </div>
-  </form>
-</div>
-<BackButton/>
-</div>
-
-);  }
+  );
+}
 export default ServerForm;

@@ -35,13 +35,17 @@ function ServerForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createServer.mutate({ ...formData, year: parseInt(selectedYear), semester: parseInt(selectedSemester) });
+    createServer.mutate({
+      ...formData,
+      year: parseInt(selectedYear),
+      semester: parseInt(selectedSemester),
+    });
     router.push("/server");
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-screen-xl px-6">
-        <h1 className="mb-6 text-3xl font-bold text-gray-800">Course Form</h1>
+        <h1 className="mb-6 text-3xl font-bold text-gray-800 mx-20">Course Form</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label

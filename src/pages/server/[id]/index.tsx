@@ -13,7 +13,7 @@ const ServerPage: NextPage = () => {
   const deleteServer = api.server.deleteServerById.useMutation();
 
   const [selectedIcon, setSelectedIcon] = React.useState<
-    "about" | "profile" | "message" | "posts"
+    "about" | "message" | "questions"
   >("about");
   const router = useRouter();
   const { id } = router.query as QParams;
@@ -34,20 +34,11 @@ const ServerPage: NextPage = () => {
     console.log("about icon clicked");
   };
 
-  const handleProfileClick = () => {
-    setSelectedIcon("profile");
-    console.log("Profile icon clicked");
-  };
-
   const handleMessageClick = () => {
     setSelectedIcon("message");
     console.log("Message icon clicked");
   };
 
-  const handlePostsClick = () => {
-    setSelectedIcon("posts");
-    console.log("Posts icon clicked");
-  };
   const handleDeleteClick = async () => {
     if (window.confirm("Are you sure you want to delete this server?")) {
       await deleteServer.mutate({ id });
@@ -55,15 +46,20 @@ const ServerPage: NextPage = () => {
     }
   };
 
+  const handleQuestionClick = () => {
+    router.push(`/server/${id}/question`);
+  };
+
   return (
     <div className="min-h-screen w-screen bg-gray-100">
-      <HeaderBar
-        selected={selectedIcon}
-        onAboutClick={handleAboutClick}
-        onProfileClick={handleProfileClick}
-        onMessageClick={handleMessageClick}
-        onPostsClick={handlePostsClick}
-      />
+<HeaderBar
+  id={id}
+  selected={selectedIcon}
+  onAboutClick={handleAboutClick}
+  onMessageClick={handleMessageClick}
+  onQuestionsClick={handleQuestionClick}
+/>
+
       <div className="mx-auto my-4 w-full max-w-3xl rounded-lg bg-white p-6 shadow-md">
         <h2 className="mb-4 text-2xl font-bold text-gray-800">
           {server.data.name}
@@ -93,32 +89,32 @@ const ServerPage: NextPage = () => {
           <div className="mb-4">
             <p className="font-bold text-gray-700">Additional Information</p>
             <p>{server.data.additionalInfo}</p>
-          </div>
-        )}
-        {server.data.usefulLinks && (
-          <div>
-            <p className="font-bold text-gray-700">Useful Links</p>
-            <a
-              href={server.data.usefulLinks}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-600"
-            >
-              {server.data.usefulLinks}
-            </a>
-          </div>
-        )}
-        <div className="mb-4 flex justify-end">
-          <button
-            className="focus:shadow-outline rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </button>
-        </div>
+            </div>
+    )}
+    {server.data.usefulLinks && (
+      <div>
+        <p className="font-bold text-gray-700">Useful Links</p>
+        <a
+          href={server.data.usefulLinks}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-600"
+        >
+          {server.data.usefulLinks}
+        </a>
       </div>
+    )}
+    <div className="mb-4 flex justify-end">
+      <button
+        className="focus:shadow-outline rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
+        onClick={handleDeleteClick}
+      >
+        Delete
+      </button>
     </div>
-  );
+  </div>
+</div>
+);
 };
 
 export default ServerPage;

@@ -12,78 +12,81 @@ import {
 import { useRouter } from "next/router";
 
 interface HeaderBarProps {
-  selected: "about" | "profile" | "message" | "posts";
+  selected: "about" | "message" | "questions";
   onAboutClick: () => void;
-  onProfileClick: () => void;
   onMessageClick: () => void;
-  onPostsClick: () => void;
+  onQuestionsClick: () => void;
+  id: string;
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
   selected,
   onAboutClick,
-  onProfileClick,
   onMessageClick,
-  onPostsClick,
+  onQuestionsClick,
+  id,
 }) => {
   const router = useRouter();
-  const handleBackClick = () => {
-    router.back();
-  };
-  const [isBackButtonHovered, setIsBackButtonHovered] = React.useState(false);
+
   const renderButton = (
     onClick: () => void,
     isSelected: boolean,
     IconComponent: React.ElementType,
-    SelectedIconComponent: React.ElementType
+    SelectedIconComponent: React.ElementType,
+    buttonText: string,
+    href?: string
   ) => (
     <button
-      onClick={onClick}
-      onMouseEnter={() => setIsBackButtonHovered(true)}
-      onMouseLeave={() => setIsBackButtonHovered(false)}
+      onClick={() => {
+        console.log(`${buttonText} button clicked`);
+        onClick();
+      }}
       className="focus:outline-none"
     >
       {isSelected ? (
-        <SelectedIconComponent className="h-12 w-12" />
+        href ? (
+          <Link href={href}>
+              <SelectedIconComponent className="h-12 w-12" />
+          </Link>
+        ) : (
+          <SelectedIconComponent className="h-12 w-12" />
+        )
       ) : (
-        <IconComponent className="h-12 w-12 text-gray-800" />
+        href ? (
+          <Link href={href}>
+              <IconComponent className="h-12 w-12 text-gray-800" />
+          </Link>
+        ) : (
+          <IconComponent className="h-12 w-12 text-gray-800" />
+        )
       )}
     </button>
   );
+
   return (
     <div className="flex w-full items-center justify-around rounded-lg bg-gray-100 p-4 shadow-md">
       {renderButton(
-        handleBackClick,
-        isBackButtonHovered,
-        BsArrowLeftCircle,
-        BsArrowLeftCircleFill
-      )}
-      {renderButton(
-        onPostsClick,
-        selected === "posts",
+        onQuestionsClick,
+        selected === "questions",
         RiHome2Line,
-        RiHome2Fill
+        RiHome2Fill,
+        "Questions",
+        `/server/${id}`
       )}
       {renderButton(
         onAboutClick,
         selected === "about",
         BsInfoCircle,
-        BsInfoCircleFill
+        BsInfoCircleFill,
+        "About"
       )}
       {renderButton(
         onMessageClick,
         selected === "message",
         FaRegEnvelope,
-        FaEnvelope
+        FaEnvelope,
+        "Message"
       )}
-      <Link href="/profile">
-        {renderButton(
-          onProfileClick,
-          selected === "profile",
-          FaRegUser,
-          FaUser
-        )}
-      </Link>
     </div>
   );
 };

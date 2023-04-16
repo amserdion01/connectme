@@ -4,6 +4,7 @@ import HeaderBar from "~/components/HeaderBar";
 import QuestionList from "~/components/QuestionList";
 import { api } from "~/utils/api";
 import { ParsedUrlQuery } from "querystring";
+import AddQuestion from "~/components/AddQuestion";
 
 interface QParams extends ParsedUrlQuery {
   id: string;
@@ -45,6 +46,7 @@ const QuestionPage: React.FC = () => {
       />
 
       <QuestionList filter="" />
+      <AddQuestion/>
     </div>
   );
 };

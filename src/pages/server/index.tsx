@@ -8,7 +8,7 @@ import CreateSomeData from "~/components/MockData";
 import router, { useRouter } from "next/router";
 import Link from "next/link";
 import BackButton from "~/components/BackButton";
-import BackButtonFull from "~/components/BackButtonFull";
+import LogOutButton from "~/components/LogOut";
 
 const Server: NextPage = () => {
   const [filter, setFilter] = useState<string | undefined>(undefined);
@@ -20,18 +20,17 @@ const Server: NextPage = () => {
     <div className="min-h-screen w-screen bg-gray-200">
       <div className=" flex flex-col">
         <div className="flex items-center justify-around">
-          <div className="hidden lg:block">
-            <BackButtonFull/>
-          </div>
+            <LogOutButton/>
 
           <SearchServer onSearch={handleSearch} />
           <AddServer />
           <Link href="/profile">
             <div className="flex items-center  rounded-lg">
-              <IoPersonCircle size="4rem" />
+              <IoPersonCircle size="3rem" />
               <span className="text-lg font-medium"></span>
             </div>
           </Link>
+
         </div>
         <ServerList filter={filter} />
       </div>

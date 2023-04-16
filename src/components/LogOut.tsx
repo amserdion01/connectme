@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { BsArrowLeftCircle, BsArrowLeftCircleFill } from 'react-icons/bs';
+import { IoLogOut, IoLogOutOutline } from 'react-icons/io5';
 
-interface BackButtonProps {
+
+interface LogOutButtonProps {
   onClick?: () => void;
 }
 
-const BackButtonFull: React.FC<BackButtonProps> = ({ onClick }) => {
+const LogOutButton: React.FC<LogOutButtonProps> = ({ onClick }) => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -18,13 +19,12 @@ const BackButtonFull: React.FC<BackButtonProps> = ({ onClick }) => {
     setIsHovered(false);
   };
 
-  const Icon = isHovered ? BsArrowLeftCircleFill : BsArrowLeftCircle;
+  const Icon = isHovered ? IoLogOutOutline : IoLogOut;
 
   return (
     <button
       type="button"
       onClick={onClick ? onClick : () => router.push("/") }
-      className="absolute top-4 left-4 focus:outline-none"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -33,4 +33,4 @@ const BackButtonFull: React.FC<BackButtonProps> = ({ onClick }) => {
   );
 };
 
-export default BackButtonFull;
+export default LogOutButton;

@@ -19,7 +19,7 @@ const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
   const router = useRouter();
   const currentPath = router.asPath;
   return (
-    <div className="mx-auto my-4 w-full max-w-md rounded-lg border border-gray-300 bg-white p-6 shadow-md">
+    <div className="mx-auto my-4 w-full max-w-md rounded-lg border border-gray-300 bg-[#fafafa] p-6 shadow-md">
       <Link href={`${currentPath}/${id}`}>
         <h2 className="mb-2 cursor-pointer text-2xl font-bold text-gray-900">
           {title.slice(0, 30)}

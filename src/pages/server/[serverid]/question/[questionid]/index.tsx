@@ -68,7 +68,7 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
             <h3 className="text-lg font-medium leading-6 text-gray-900">
               {question.title}
             </h3>
-            <div className="mt-2 flex items-center text-sm text-gray-500">
+            <div className="mt-2 flex items-center text-sm text-gray-500 ">
               <p>
                 Created by {username} {formattedCreatedAt}
               </p>
@@ -76,9 +76,9 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
           </div>
           <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
             <dl className="sm:divide-y sm:divide-gray-200">
-              <div className="py-4 sm:grid sm:gap-4 sm:py-5 sm:px-6">
+              <div className="py-4 sm:grid sm:gap-4 sm:py-5 sm:px-6 bg-[#fafafa]">
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">
-                  <div className="markdown">
+                  <div className="markdown" >
                     <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                       {question.content}
                     </ReactMarkdown>

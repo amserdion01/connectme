@@ -9,9 +9,9 @@ import {
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .query(({  }) => {
       return {
-        greeting: `Hello ${input.text}`,
+        greeting: `Welcome to ConnectMe`,
       };
     }),
 
@@ -20,6 +20,6 @@ export const exampleRouter = createTRPCRouter({
   }),
 
   getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+    return "";
   }),
 });

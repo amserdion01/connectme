@@ -4,7 +4,7 @@ import React from 'react'
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 const ServerCard : React.FC <{server: Server}> = ({server}) => {
-    console.log(server)
+
     const stars = Array(5)
     .fill(0)
     .map((_, i) => (i < server.rating ? <FaStar key={i} /> : <FaRegStar key={i} />));

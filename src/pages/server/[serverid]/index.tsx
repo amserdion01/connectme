@@ -3,18 +3,17 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import HeaderBar from "~/components/HeaderBar";
+import { getLayout } from "~/components/Layout";
+import { NextPageWithLayout } from "~/pages/_app";
 import { api } from "~/utils/api";
 
 interface QParams extends ParsedUrlQuery {
   serverid: string;
 }
 
-const ServerPage: NextPage = () => {
+const ServerPage: NextPageWithLayout = () => {
   const deleteServer = api.server.deleteServerById.useMutation();
 
-  const [selectedIcon, setSelectedIcon] = React.useState<
-    "about" | "message" | "questions"
-  >("about");
   const router = useRouter();
   const { serverid: id } = router.query as QParams;
   const server = api.server.getServerById.useQuery({ id });
@@ -29,15 +28,6 @@ const ServerPage: NextPage = () => {
       </div>
     );
   }
-  const handleAboutClick = () => {
-    setSelectedIcon("about");
-    console.log("about icon clicked");
-  };
-
-  const handleMessageClick = () => {
-    setSelectedIcon("message");
-    console.log("Message icon clicked");
-  };
 
   const handleDeleteClick = async () => {
     if (window.confirm("Are you sure you want to delete this server?")) {
@@ -46,19 +36,9 @@ const ServerPage: NextPage = () => {
     }
   };
 
-  const handleQuestionClick = () => {
-    router.push(`/server/${id}/question`);
-  };
 
   return (
-    <div className="min-h-screen w-screen bg-gray-100">
-<HeaderBar
-  id={id}
-  selected={selectedIcon}
-  onAboutClick={handleAboutClick}
-  onMessageClick={handleMessageClick}
-  onQuestionsClick={handleQuestionClick}
-/>
+      
 
       <div className="mx-auto my-4 w-full max-w-3xl rounded-lg bg-white p-6 shadow-md">
         <h2 className="mb-4 text-2xl font-bold text-gray-800">
@@ -113,8 +93,7 @@ const ServerPage: NextPage = () => {
       </button>
     </div>
   </div>
-</div>
 );
 };
-
+ServerPage.getLayout=getLayout;
 export default ServerPage;

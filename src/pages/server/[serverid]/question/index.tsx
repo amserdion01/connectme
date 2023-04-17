@@ -1,40 +1,24 @@
 import React from "react";
 import { useRouter } from "next/router";
-import HeaderBar from "~/components/HeaderBar";
-import QuestionList from "~/components/QuestionList";
 import { api } from "~/utils/api";
 import { ParsedUrlQuery } from "querystring";
 import AddQuestion from "~/components/AddQuestion";
 import QuestionCard from "~/components/QuestionCard";
+import { NextPageWithLayout } from "~/pages/_app";
+import QuestionPage from "./[questionid]";
+import { getLayout } from "~/components/Layout";
 
 interface QParams extends ParsedUrlQuery {
   serverid: string;
 }
 
-const QuestionsPage: React.FC = () => {
-  const [selectedIcon, setSelectedIcon] = React.useState<
-    "about" | "message" | "questions"
-  >("questions");
+const QuestionsPage: NextPageWithLayout = () => {
+
 
   const router = useRouter();
   const { serverid: id } = router.query as QParams;
 
-  const handleAboutClick = () => {
-    setSelectedIcon("about");
-    console.log("about icon clicked");
-    router.back();
-  };
 
-  const handleMessageClick = () => {
-    setSelectedIcon("message");
-    console.log("Message icon clicked");
-  };
-
-  const handleQuestionsClick = () => {
-    setSelectedIcon("questions");
-    console.log("Posts icon clicked");
-    router.push(`/server/${id}/question`);
-  };
   const serverId = id;
   const questions = api.question.getAllQuestions.useQuery({ serverId });
   console.log("Questions:");
@@ -58,13 +42,6 @@ const QuestionsPage: React.FC = () => {
   }
   return (
     <div>
-      <HeaderBar
-        id={id}
-        onAboutClick={handleAboutClick}
-        onMessageClick={handleMessageClick}
-        onQuestionsClick={handleQuestionsClick}
-        selected={selectedIcon}
-      />
       <AddQuestion />
       <div className="flex w-screen flex-wrap gap-3">
         {questions.data &&
@@ -75,5 +52,5 @@ const QuestionsPage: React.FC = () => {
     </div>
   );
 };
-
+QuestionsPage.getLayout=getLayout;
 export default QuestionsPage;

@@ -1,39 +1,32 @@
 import Link from "next/link";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React from "react";
 import { FaCheckCircle, FaRegCircle } from "react-icons/fa";
 
 interface Question {
   id: string;
   title: string;
-  numAnswers: number;
-  solved: boolean;
+  content: string;
 }
 
 const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
-  const { id, title, numAnswers, solved } = question;
+  const { id, title, content } = question;
   const router = useRouter();
   const currentPath = router.asPath;
   return (
-    <div className="mx-auto my-4 w-full max-w-sm rounded-lg bg-gray-100 p-6 shadow-md">
+    <div className="mx-auto my-4 w-full max-w-md bg-gray-900 rounded-lg p-6 shadow-md">
       <Link href={`${currentPath}/${id}`}>
-        <h2 className="mb-4 text-2xl font-bold text-gray-800">
-          {title.slice(0, 20)}...
-        </h2>
-      
-      <div className="mb-4 flex items-center">
-        {solved ? (
-          <FaCheckCircle className="mr-2 text-green-500" />
-        ) : (
-          <FaRegCircle className="mr-2 text-red-500" />
-        )}
-        <p className="font-bold text-gray-700">
-          {solved ? "Solved" : "Unsolved"}
-        </p>
-      </div>
-      <div className="mb-4 font-bold text-gray-700">
-        {numAnswers} {numAnswers === 1 ? "answer" : "answers"}
-      </div>
+        <div>
+          <h2 className="mb-2 text-2xl font-bold text-gray-100 cursor-pointer">
+            {title.slice(0, 30)}
+          </h2>
+        </div>
+      </Link>
+      <p className="text-gray-300 text-sm mb-4">{content.slice(0, 100)}...</p>
+      <Link href={`${currentPath}/${id}`}>
+        <div className="text-gray-400 hover:text-gray-200 hover:underline text-sm">
+          Read more
+        </div>
       </Link>
     </div>
   );

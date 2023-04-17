@@ -3,9 +3,8 @@ import { prisma } from "../../db"
 import {
     createTRPCRouter,
     publicProcedure,
-    protectedProcedure,
 } from "~/server/api/trpc";
-import Trpc from "~/pages/api/trpc/[trpc]";
+
 import { TRPCError } from "@trpc/server";
 
 export const serverRouter = createTRPCRouter({

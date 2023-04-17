@@ -6,7 +6,7 @@ import HeaderBar from "~/components/HeaderBar";
 import { api } from "~/utils/api";
 
 interface QParams extends ParsedUrlQuery {
-  id: string;
+  serverid: string;
 }
 
 const ServerPage: NextPage = () => {
@@ -16,7 +16,7 @@ const ServerPage: NextPage = () => {
     "about" | "message" | "questions"
   >("about");
   const router = useRouter();
-  const { id } = router.query as QParams;
+  const { serverid: id } = router.query as QParams;
   const server = api.server.getServerById.useQuery({ id });
   const Spinner = () => (
     <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-solid border-blue-500"></div>

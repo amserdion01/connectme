@@ -12,7 +12,6 @@ function QuestionForm() {
     content: "",
   });
 
-
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -27,19 +26,17 @@ function QuestionForm() {
     e.preventDefault();
 
     const serverId = currentPath.split("/")[2];
-    console.log({ ...formData, serverId })
+    console.log({ ...formData, serverId });
 
-    if (typeof(serverId) === "string")(
-    createQuestion.mutate({ ...formData, serverId }) 
-
-    )
-    router.back()
-};
+    if (typeof serverId === "string")
+      createQuestion.mutate({ ...formData, serverId });
+    router.back();
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-screen-xl px-6">
-        <h1 className="mb-6 text-3xl font-bold text-gray-800 mx-20">
+        <h1 className="mx-20 mb-6 text-3xl font-bold text-gray-800">
           Ask a question
         </h1>
         <form onSubmit={handleSubmit}>

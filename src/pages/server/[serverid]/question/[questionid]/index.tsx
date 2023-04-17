@@ -9,10 +9,13 @@ import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { formatDistanceToNow } from "date-fns";
 import { getSession } from "next-auth/react";
-
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import 'highlight.js/styles/atom-one-light.css';
 interface QParams extends ParsedUrlQuery {
   questionid: string;
 }
+
 interface QuestionPageProps {
   question: Omit<Question, "created_at" | "updated_at"> & {
     created_at: string;
@@ -39,7 +42,7 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
       addSuffix: true,
     }
   );
-  
+
   const markSolved = api.question.markSolved.useMutation();
 
   return (
@@ -75,7 +78,11 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
             <dl className="sm:divide-y sm:divide-gray-200">
               <div className="py-4 sm:grid sm:gap-4 sm:py-5 sm:px-6">
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">
-                  {question.content}
+                  <div className="markdown">
+                    <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                      {question.content}
+                    </ReactMarkdown>
+                  </div>
                 </dd>
                 <div className="mt-4">
                   <button

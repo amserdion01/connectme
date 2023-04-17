@@ -9,19 +9,35 @@ import router, { useRouter } from "next/router";
 import Link from "next/link";
 import BackButton from "~/components/BackButton";
 import LogOutButton from "~/components/LogOut";
+import { useSession } from "next-auth/react";
 
 const Server: NextPage = () => {
   const [filter, setFilter] = useState<string | undefined>(undefined);
   const handleSearch = (searchTerm: string) => {
     setFilter(searchTerm);
   };
- 
+  const { data: session } = useSession();
+  if (!session) {
+    const router = useRouter();
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-gray-300">
+        <Link href="/">
+          <button
+            className="focus:shadow-outline rounded bg-gray-800 py-2 px-4 font-bold text-white hover:bg-gray-700 focus:outline-none"
+            type="button"
+          >
+            You need to sign in to continue!
+          </button>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen w-screen bg-gray-200">
       <div className=" flex flex-col">
         <div className="flex items-center justify-around">
-            <LogOutButton/>
-
+          <LogOutButton />
           <SearchServer onSearch={handleSearch} />
           <AddServer />
           <Link href="/profile">
@@ -30,7 +46,6 @@ const Server: NextPage = () => {
               <span className="text-lg font-medium"></span>
             </div>
           </Link>
-
         </div>
         <ServerList filter={filter} />
       </div>

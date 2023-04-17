@@ -8,6 +8,7 @@ import BackButton from "~/components/BackButton";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 import { formatDistanceToNow } from "date-fns";
+import { getSession } from "next-auth/react";
 
 interface QParams extends ParsedUrlQuery {
   questionid: string;
@@ -18,23 +19,28 @@ interface QuestionPageProps {
     updated_at: string;
   };
   username: string;
+  own: Boolean;
 }
 
-const QuestionPage: NextPage<QuestionPageProps> = ({ question, username }) => {
+const QuestionPage: NextPage<QuestionPageProps> = ({
+  question,
+  username,
+  own,
+}) => {
   const deleteQuestion = api.question.deleteQuestion.useMutation();
   const Spinner = () => (
     <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-solid border-blue-500"></div>
   );
   const created_at = new Date(question.created_at);
   const updated_at = new Date(question.updated_at);
-  const showUpdated = created_at.toJSON() == updated_at.toJSON();
-
   const formattedCreatedAt = formatDistanceToNow(
     new Date(question.created_at),
     {
       addSuffix: true,
     }
   );
+  
+  const markSolved = api.question.markSolved.useMutation();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -44,11 +50,15 @@ const QuestionPage: NextPage<QuestionPageProps> = ({ question, username }) => {
           <h1 className="text-3xl font-extrabold text-gray-900">
             {question.title}
           </h1>
-          {showUpdated && (
-            <span className="inline-block rounded bg-green-200 px-2 py-1 text-xs font-semibold text-green-700">
-              Updated
-            </span>
-          )}
+          <span
+            className={`inline-block rounded px-2 py-1 text-xs font-semibold ${
+              question.solved
+                ? "bg-green-200 text-green-700"
+                : "bg-red-200 text-red-700"
+            }`}
+          >
+            {question.solved ? "Solved" : "Unsolved"}
+          </span>
         </div>
         <div className="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
@@ -67,19 +77,31 @@ const QuestionPage: NextPage<QuestionPageProps> = ({ question, username }) => {
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">
                   {question.content}
                 </dd>
-                <button
-            className="mt-4 rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
-            onClick={async () => {
-              await deleteQuestion.mutateAsync({ id: question.id });
-              router.back(); // Redirect to another page after deletion, for example, the homepage
-            }}
-          >
-            Delete question
-          </button>
+                <div className="mt-4">
+                  <button
+                    className="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+                    onClick={async () => {
+                      await deleteQuestion.mutateAsync({ id: question.id });
+                      router.back(); // Redirect to another page after deletion, for example, the homepage
+                    }}
+                  >
+                    Delete question
+                  </button>
+                  {own && !question.solved && (
+                    <button
+                      className="ml-4 rounded bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                      onClick={async () => {
+                        await markSolved.mutateAsync({ id: question.id });
+                        router.replace(router.asPath); // Refresh the page
+                      }}
+                    >
+                      Mark as solved
+                    </button>
+                  )}
+                </div>
               </div>
             </dl>
           </div>
-
         </div>
       </div>
     </div>
@@ -99,12 +121,18 @@ export const getServerSideProps: GetServerSideProps<object> = async (
   }
   const user = await prisma.user.findFirst({
     where: { id: question.userId },
-    select: { name: true },
+    select: { name: true, id: true },
   });
   if (!user) {
     return { notFound: true };
   }
   const { updated_at, created_at, ...rest } = question;
+
+  const session = await getSession(context);
+  const currentUser = await prisma.user.findFirst({
+    where: { id: session?.user?.id },
+  });
+
   return {
     props: {
       question: {
@@ -113,6 +141,7 @@ export const getServerSideProps: GetServerSideProps<object> = async (
         created_at: created_at.toJSON(),
       },
       username: user.name,
+      own: currentUser?.id === user.id,
     },
   };
 };

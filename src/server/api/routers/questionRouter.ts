@@ -57,4 +57,23 @@ export const questionRouter = createTRPCRouter({
             console.log(question)
             return question
         }),
+    markSolved: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+          const question = await ctx.prisma.question.findUnique({
+            where: { id: input.id },
+          });
+    
+          if (!question) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: `Question not found (id = '${input.id}')`,
+            });
+          }
+    
+          return ctx.prisma.question.update({
+            where: { id: input.id },
+            data: { solved: true },
+          });
+        }),
 });

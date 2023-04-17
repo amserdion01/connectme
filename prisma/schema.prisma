@@ -85,6 +85,7 @@ model Question {
     created_at DateTime @default(now())
     updated_at DateTime @default(now())
     title      String
+    solved     Boolean  @default(false)
     content    String   @db.Text
     server     Server   @relation(fields: [serverId], references: [id])
     serverId   String

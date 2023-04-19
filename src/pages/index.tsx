@@ -1,18 +1,13 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Logo from "../components/Logo";
 import Login from "../components/Login";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { getServerAuthSession } from "~/server/auth";
+
 
 const Home: NextPage = () => {
-  const { data: session } = useSession();
-  
-  if (session){
-    const router = useRouter();
-    router.push("/server")
-    return null;
-  }
   return (
     <>
       <Head>
@@ -21,13 +16,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/global-network.png" />
       </Head>
 
-      <div className="h-screen grid grid-cols-2 gap-0 bg-gray-200">
+      <div className="grid h-screen grid-cols-2 gap-0 bg-gray-200">
         <Logo />
         <Login />
-        
       </div>
     </>
   );
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerAuthSession(context);
+  if (session) return { redirect: {destination: "/server", permanent: true}};
+  return {
+    props: {},
+  };
+};

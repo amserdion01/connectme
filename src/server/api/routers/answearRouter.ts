@@ -50,7 +50,6 @@ export const answerRouter = createTRPCRouter({
                 })
 
             }
-            console.log(answer)
             return answer
         }),
 });

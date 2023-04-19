@@ -26,7 +26,6 @@ function QuestionForm() {
     e.preventDefault();
 
     const serverId = currentPath.split("/")[2];
-    console.log({ ...formData, serverId });
 
     if (typeof serverId === "string")
       createQuestion.mutate({ ...formData, serverId });

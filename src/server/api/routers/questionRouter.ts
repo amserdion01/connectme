@@ -54,7 +54,6 @@ export const questionRouter = createTRPCRouter({
                 })
 
             }
-            console.log(question)
             return question
         }),
     markSolved: protectedProcedure

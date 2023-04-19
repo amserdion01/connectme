@@ -55,7 +55,6 @@ export const messageRouter = createTRPCRouter({
                     message: `Message not found (id ='(${input.id})' )`
                 })
             }
-            console.log(message)
             return message
         }),
 });

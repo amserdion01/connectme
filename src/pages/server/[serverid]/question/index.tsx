@@ -1,11 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 import AddQuestion from "~/components/AddQuestion";
 import QuestionCard from "~/components/QuestionCard";
-import { NextPageWithLayout } from "~/pages/_app";
-import QuestionPage from "./[questionid]";
+import type { NextPageWithLayout } from "~/pages/_app";
 import { getLayout } from "~/components/Layout";
 
 interface QParams extends ParsedUrlQuery {
@@ -21,9 +20,7 @@ const QuestionsPage: NextPageWithLayout = () => {
 
   const serverId = id;
   const questions = api.question.getAllQuestions.useQuery({ serverId });
-  console.log("Questions:");
-  console.log(questions.error?.message);
-  console.log(questions.error?.data);
+
 
   const Spinner = () => (
     <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>

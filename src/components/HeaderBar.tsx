@@ -17,72 +17,50 @@ interface QParams extends ParsedUrlQuery {
 }
 
 const Buton: React.FC<{
-  onClick: () => void;
   isSelected: boolean;
   IconComponent: React.ElementType;
   SelectedIconComponent: React.ElementType;
   buttonText: string;
-  href?: string;
+  href: string;
 }> = ({
-  onClick,
   isSelected,
   IconComponent,
   SelectedIconComponent,
   buttonText,
   href,
 }) => (
-  <button
-    onClick={() => {
-      console.log(`${buttonText} button clicked`);
-      onClick();
-    }}
-    className="focus:outline-none"
-  >
+  <Link href={href}>
     {isSelected ? (
-      href ? (
-        <Link href={href}>
-          <SelectedIconComponent className="h-12 w-12" />
-        </Link>
-      ) : (
-        <SelectedIconComponent className="h-12 w-12" />
-      )
-    ) : href ? (
-      <Link href={href}>
-        <IconComponent className="h-12 w-12 text-gray-800" />
-      </Link>
+      <SelectedIconComponent className = "text-6xl">{buttonText}</SelectedIconComponent>
     ) : (
-      <IconComponent className="h-12 w-12 text-gray-800" />
+      <IconComponent className = "text-5xl">{buttonText}</IconComponent>
     )}
-  </button>
+
+  </Link>
 );
 
 const HeaderBar: React.FC = () => {
   const router = useRouter();
+
   const { serverid: id } = router.query as QParams;
   const [selectedIcon, setSelectedIcon] = React.useState<
     "about" | "message" | "questions"
   >("about");
-
-  const handleAboutClick = () => {
-    setSelectedIcon("about");
-    console.log("about icon clicked");
-    router.back();
-  };
-
-  const handleMessageClick = () => {
-    setSelectedIcon("message");
-    console.log("Message icon clicked");
-  };
-
-  const handleQuestionsClick = () => {
-    setSelectedIcon("questions");
-    console.log("Posts icon clicked");
-    router.push(`/server/${id}/question`);
-  };
+  React.useLayoutEffect(()=>{
+    const route = router.pathname
+    if (route.endsWith("chat")){
+      setSelectedIcon("message")
+      return 
+    } 
+    if (route.endsWith("question")){
+      setSelectedIcon("questions")
+      return 
+    } 
+    setSelectedIcon("about")
+  }, [router.pathname])
   return (
     <div className="flex w-full items-center justify-around rounded-lg bg-gray-100 p-4 shadow-md">
       <Buton
-        onClick={handleQuestionsClick}
         isSelected={selectedIcon === "questions"}
         IconComponent={RiHome2Line}
         SelectedIconComponent={RiHome2Fill}
@@ -90,7 +68,6 @@ const HeaderBar: React.FC = () => {
         href={`/server/${id}/question`}
       />
       <Buton
-        onClick={handleAboutClick}
         isSelected={selectedIcon === "about"}
         IconComponent={BsInfoCircle}
         SelectedIconComponent={BsInfoCircleFill}
@@ -98,7 +75,6 @@ const HeaderBar: React.FC = () => {
         href={`/server/${id}`}
       />
       <Buton
-        onClick={handleMessageClick}
         isSelected={selectedIcon === "message"}
         IconComponent={FaRegEnvelope}
         SelectedIconComponent={FaEnvelope}

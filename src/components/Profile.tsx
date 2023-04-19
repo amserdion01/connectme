@@ -15,7 +15,6 @@ export interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ data, user }) => {
-  console.log(user)
   // const userQuery = api.user.getCurrentUser.useQuery();
   // const user  = userQuery.data
   // if (!user){

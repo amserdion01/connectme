@@ -1,6 +1,9 @@
 import React from 'react';
 import { Answer as AnswerType } from '@prisma/client';
 import { api } from '~/utils/api';
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/atom-one-light.css';
 
 interface AnswerProps {
   answer: AnswerType;
@@ -20,7 +23,13 @@ const Answer: React.FC<AnswerProps> = ({ answer, onDelete }) => {
       <div className="text-sm text-gray-500">
         <span>Answered by </span>
       </div>
-      <div className="mt-2 text-gray-900">{answer.content}</div>
+      <div className="mt-2 text-gray-900">
+        
+      <div className="markdown">
+                    <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                      {answer.content}
+                    </ReactMarkdown>
+                  </div></div>
       <button
         className="mt-4 text-xs text-red-500 hover:text-red-700"
         onClick={handleDelete}

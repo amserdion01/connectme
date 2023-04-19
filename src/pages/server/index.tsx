@@ -16,9 +16,19 @@ const Server: NextPage = () => {
   const handleSearch = (searchTerm: string) => {
     setFilter(searchTerm);
   };
-  const { data: session } = useSession();
-  if (!session) {
-    const router = useRouter();
+  const { data: session, status } = useSession();
+  const Spinner = () => (
+    <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+  );
+
+  if (status ==="loading" ){
+    return (
+      <div className="min-h-screen w-screen bg-gray-100 flex justify-center items-center">
+        <Spinner />
+      </div>
+    );}
+  
+  if (status ==="unauthenticated") {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-gray-300">
         <Link href="/">

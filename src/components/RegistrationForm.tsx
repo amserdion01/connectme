@@ -1,14 +1,15 @@
 // components/RegistrationForm.tsx
 import React, { useState } from "react";
 import BackButton from "./BackButton";
+import { Role } from "@prisma/client";
 
-interface FormData {
+export interface FormData {
   university: string;
   faculty: string;
   description: string;
   year: string;
   age: string;
-  role: string;
+  role: Role;
 }
 
 interface RegistrationFormProps {
@@ -24,7 +25,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     description: "",
     year: "",
     age: "",
-    role: "",
+    role: "Student",
   });
 
   const handleChange = (

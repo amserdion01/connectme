@@ -9,7 +9,7 @@ import { getSession } from "next-auth/react";
 import { Data, User } from "@prisma/client";
 import router from "next/router";
 
-interface ProfileProps {
+export interface ProfileProps {
   data: Data;
   user: User;
 }
@@ -39,11 +39,11 @@ const Profile: React.FC<ProfileProps> = ({ data, user }) => {
       <div className="col-span-2 flex justify-center items-center">
         <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
           <div className="flex justify-center">
-            <img
+            {user?.image && <img
               src={user.image}
               alt="Profile picture"
               className="h-32 w-32 rounded-full object-cover"
-            />
+            />}
           </div>
           <div className="text-center mt-4">
             <h1 className="text-3xl font-bold">{user.name}</h1>

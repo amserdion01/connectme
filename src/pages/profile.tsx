@@ -1,5 +1,5 @@
 import React from "react";
-import Profile from "../components/Profile";
+import Profile, { ProfileProps } from "../components/Profile";
 import { GetServerSideProps, NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { Data, User } from "@prisma/client";
@@ -9,15 +9,9 @@ import { api } from "~/utils/api";
 
 
 
-const ProfilePage: NextPage = () => {
+const ProfilePage: NextPage<ProfileProps> = ({data, user}) => {
   // const x = user.email;
-  const { data: session } = useSession();
-  const user = session?.user;
-  const dataQuery = api.user.getUserDataByUserId.useQuery({ id : user?.id });
-  const data = dataQuery.data
-  if (!data){
-    return <div>sdasd</div>
-  }
+
   return <div> 
     <Profile data={data} user={user}/> </div>;
 };

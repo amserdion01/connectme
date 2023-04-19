@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPage } from "next";
 
 import router, { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import React from "react";
+import React, { useState } from "react";
 import BackButton from "~/components/BackButton";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
@@ -12,6 +12,8 @@ import { getSession } from "next-auth/react";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-light.css";
+import Answer from "~/components/Answer";
+
 interface QParams extends ParsedUrlQuery {
   questionid: string;
 }
@@ -30,7 +32,13 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
   username,
   own,
 }) => {
+  const router = useRouter();
+  const [answerContent, setAnswerContent] = useState("");
+
   const deleteQuestion = api.question.deleteQuestion.useMutation();
+  const createAnswer = api.answer.createAnswer.useMutation(); // Create answer mutation
+  const getAllAnswers = api.answer.getAllAnswers.useQuery({ questionId: question.id });
+
   const Spinner = () => (
     <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-solid border-blue-500"></div>
   );
@@ -42,6 +50,14 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
       addSuffix: true,
     }
   );
+  const handleSubmitAnswer = async () => {
+    await createAnswer.mutateAsync({
+      content: answerContent,
+      questionId: question.id,
+    });
+    setAnswerContent("");
+    getAllAnswers.refetch();
+  };
 
   const markSolved = api.question.markSolved.useMutation();
 
@@ -108,6 +124,33 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
                 </div>
               </div>
             </dl>
+            <div className="mt-8">
+              <h2 className="mb-4 text-2xl font-bold">Answers</h2>
+              {getAllAnswers.data?.map((answer) => (
+                <Answer
+                  key={answer.id}
+                  answer={answer}
+                  onDelete={() => getAllAnswers.refetch()}
+                />
+              ))}
+              <div className="mt-8">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Your Answer
+                </label>
+                <textarea
+                  className="w-full rounded-lg border px-3 py-2 text-sm text-gray-700 focus:outline-none"
+                  rows={4}
+                  value={answerContent}
+                  onChange={(e) => setAnswerContent(e.target.value)}
+                ></textarea>
+                <button
+                  className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={handleSubmitAnswer}
+                >
+                  Submit Answer
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

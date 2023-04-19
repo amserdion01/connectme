@@ -1,6 +1,8 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
+import Chat from "~/components/Chat";
 import HeaderBar from "~/components/HeaderBar";
 import { getLayout } from "~/components/Layout";
 import { NextPageWithLayout } from "~/pages/_app";
@@ -26,13 +28,13 @@ const ChatPage: NextPageWithLayout = () => {
       </div>
     );
   }
-
+  
 
 
   return (
       
 
-<div>ChatPage Page</div>
+<div><Chat serverId={server.data.id} /></div>
 );
 };
 ChatPage.getLayout=getLayout;

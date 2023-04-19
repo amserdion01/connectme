@@ -2,8 +2,17 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Logo from "../components/Logo";
 import Login from "../components/Login";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const { data: session } = useSession();
+  
+  if (session){
+    const router = useRouter();
+    router.push("/server")
+    return null;
+  }
   return (
     <>
       <Head>

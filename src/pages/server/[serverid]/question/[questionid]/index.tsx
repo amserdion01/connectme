@@ -11,7 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 import { getSession } from "next-auth/react";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
-import 'highlight.js/styles/atom-one-light.css';
+import "highlight.js/styles/atom-one-light.css";
 interface QParams extends ParsedUrlQuery {
   questionid: string;
 }
@@ -76,9 +76,9 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
           </div>
           <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
             <dl className="sm:divide-y sm:divide-gray-200">
-              <div className="py-4 sm:grid sm:gap-4 sm:py-5 sm:px-6 bg-[#fafafa]">
+              <div className="bg-[#fafafa] py-4 sm:grid sm:gap-4 sm:py-5 sm:px-6">
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">
-                  <div className="markdown" >
+                  <div className="markdown">
                     <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                       {question.content}
                     </ReactMarkdown>
@@ -99,7 +99,7 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
                       className="ml-4 rounded bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
                       onClick={async () => {
                         await markSolved.mutateAsync({ id: question.id });
-                        router.replace(router.asPath); // Refresh the page
+                        router.replace(router.asPath);
                       }}
                     >
                       Mark as solved

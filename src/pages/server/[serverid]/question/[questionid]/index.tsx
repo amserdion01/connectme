@@ -24,7 +24,7 @@ interface QuestionPageProps {
     updated_at: string;
   };
   username: string;
-  own: Boolean;
+  own: boolean;
 }
 
 const QuestionPage: NextPage<QuestionPageProps> = ({

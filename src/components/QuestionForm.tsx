@@ -4,7 +4,12 @@ import BackButton from "./BackButton";
 import { useRouter } from "next/router";
 
 function QuestionForm() {
-  const createQuestion = api.question.createQuestion.useMutation();
+  const apicontext = api.useContext()
+  const createQuestion = api.question.createQuestion.useMutation({ 
+  async onSettled() {
+    await apicontext.question.getAllQuestions.invalidate()
+  },
+  });
   const router = useRouter();
   const currentPath = router.asPath;
   const [formData, setFormData] = useState({

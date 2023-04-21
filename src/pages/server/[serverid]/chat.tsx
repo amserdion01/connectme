@@ -29,8 +29,6 @@ const ChatPage: NextPageWithLayout = () => {
     );
   }
   
-
-
   return (
       
 

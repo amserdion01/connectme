@@ -38,7 +38,7 @@ export const userRouter = createTRPCRouter({
           role: z.enum(['Teacher', 'Student']),
         }),
       )
-    
+      //change to 
       .mutation(async ({ ctx, input }) => {
         try {
           const user = await ctx.prisma.user.update({
@@ -46,6 +46,7 @@ export const userRouter = createTRPCRouter({
             data: {
               Data: {
                 create: {
+                  // upsert!!!
                   university: input.university,
                   faculty: input.faculty,
                   description: input.description,

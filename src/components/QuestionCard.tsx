@@ -26,10 +26,9 @@ const QuestionCard: React.FC<{ question: Question }> = ({ question }) => {
         </h2>
         <p className="mb-4 text-sm text-gray-700">
           {
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}
-            children = {content.slice(0, 70)}
-
-            />
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {content.slice(0, 70)}
+            </ReactMarkdown>
           }
         </p>
         <span

@@ -1,8 +1,8 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 function Logo() {
   return (
-    <div className="col-span-1 flex justify-center items-center h-full">
+    <div className=" sm:flex h-full items-center justify-center sm:min-h-screen sm:flex-col">
       <Image
         src="/logo-black.png"
         alt="ConnectMe Logo"
@@ -10,7 +10,7 @@ function Logo() {
         height={1080}
         className="object-cover object-left"
       />
-      <div className="absolute inset-y-0 left-1/2 w-3 bg-black"></div>
+      <div className="absolute inset-y-0 left-1/2 hidden w-3 bg-black sm:block"></div>
     </div>
   );
 }

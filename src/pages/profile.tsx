@@ -1,12 +1,9 @@
 import React from "react";
-import Profile, { ProfileProps } from "../components/Profile";
-import { GetServerSideProps, NextPage } from "next";
-import { getSession, useSession } from "next-auth/react";
-import { Data, User } from "@prisma/client";
+import type { ProfileProps } from "../components/user/Profile";
+import Profile from "../components/user/Profile";
+import type { GetServerSideProps, NextPage } from "next";
 import { prisma } from "~/server/db";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/utils/api";
-
 
 
 const ProfilePage: NextPage<ProfileProps> = ({data, user}) => {

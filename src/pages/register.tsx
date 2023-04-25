@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import RegistrationForm, { FormData } from '~/components/RegistrationForm';
+import RegistrationForm, { FormData } from '~/components/user/RegistrationForm';
 import { api } from '~/utils/api';
 
 const Register: React.FC = () => {

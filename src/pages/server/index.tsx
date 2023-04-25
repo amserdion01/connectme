@@ -1,14 +1,14 @@
 import { NextPage } from "next";
-import AddServer from "../../components/AddServer";
-import ServerList from "~/components/ServerList";
-import SearchServer from "~/components/SearchServer";
+import AddServer from "../../components/server/AddServer";
+import ServerList from "~/components/server/ServerList";
+import SearchServer from "~/components/server/SearchServer";
 import { useState } from "react";
 import { IoPersonCircle } from "react-icons/io5";
-import CreateSomeData from "~/components/MockData";
+import CreateSomeData from "~/components/legacy/MockData";
 import router, { useRouter } from "next/router";
 import Link from "next/link";
 import BackButton from "~/components/BackButton";
-import LogOutButton from "~/components/LogOut";
+import LogOutButton from "~/components/user/LogOut";
 import { useSession } from "next-auth/react";
 
 const Server: NextPage = () => {

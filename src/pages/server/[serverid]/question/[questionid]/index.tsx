@@ -12,7 +12,7 @@ import { getSession } from "next-auth/react";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-light.css";
-import Answer from "~/components/Answer";
+import Answer from "~/components/question/Answer";
 
 interface QParams extends ParsedUrlQuery {
   questionid: string;

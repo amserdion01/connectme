@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import QuestionForm from "~/components/QuestionForm";
+import QuestionForm from "~/components/question/QuestionForm";
 
 const NewQuestion: NextPage = () => {
 

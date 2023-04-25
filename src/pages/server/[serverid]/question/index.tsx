@@ -2,8 +2,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import type { ParsedUrlQuery } from "querystring";
-import AddQuestion from "~/components/AddQuestion";
-import QuestionCard from "~/components/QuestionCard";
+import AddQuestion from "~/components/question/AddQuestion";
+import QuestionCard from "~/components/question/QuestionCard";
 import type { NextPageWithLayout } from "~/pages/_app";
 import { getLayout } from "~/components/Layout";
 

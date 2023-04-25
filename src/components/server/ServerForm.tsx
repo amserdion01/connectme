@@ -1,10 +1,9 @@
 import router from "next/router";
-import { useState, ChangeEvent, FormEvent } from "react";
-import { BsArrowLeftCircle } from "react-icons/bs";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import { api } from "~/utils/api";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
-const server: FormData[] = [];
 function ServerForm() {
   const createServer = api.server.createServer.useMutation();
 

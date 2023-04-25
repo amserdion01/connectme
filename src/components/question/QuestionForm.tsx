@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { api } from "~/utils/api";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 import { useRouter } from "next/router";
 
 function QuestionForm() {

@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Logo from "../components/Logo";
-import Login from "../components/Login";
+import Login from "../components/user/Login";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { getServerAuthSession } from "~/server/auth";

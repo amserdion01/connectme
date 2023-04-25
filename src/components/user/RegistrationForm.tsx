@@ -1,7 +1,6 @@
 // components/RegistrationForm.tsx
 import React, { useState } from "react";
-import BackButton from "./BackButton";
-import { Role } from "@prisma/client";
+import type { Role } from "@prisma/client";
 
 export interface FormData {
   university: string;

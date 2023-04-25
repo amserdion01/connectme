@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import ServerForm from "~/components/server/ServerForm";
 
 const Form: NextPage = () => {

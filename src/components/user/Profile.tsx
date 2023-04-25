@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import BackButton from "../BackButton";
 import Image from "next/image";
 import type { Data, User } from "@prisma/client";
+import { useRouter } from "next/router";
+import { BsArrowLeftCircle, BsArrowLeftCircleFill } from "react-icons/bs";
 export interface ProfileProps {
   data: Data;
   user: User;
 }
  
 const Profile: React.FC<ProfileProps> = ({ data, user }) => {
+  const router = useRouter();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const Icon = isHovered ? BsArrowLeftCircleFill : BsArrowLeftCircle;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 min-h-screen bg-gray-100">
-      {/* Back button */}
       <div className="md:col-span-1">
-        <BackButton />
+      <button
+      type="button"
+      onClick={() => router.push("/server")}
+      className="absolute top-4 left-4 focus:outline-none"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Icon className="h-12 w-12" />
+    </button>
       </div>
 
       {/* Profile information */}

@@ -1,8 +1,7 @@
-import { Question } from "@prisma/client";
-import { GetServerSideProps, NextPage } from "next";
+import type { Question } from "@prisma/client";
+import type { GetServerSideProps, NextPage } from "next";
 
-import router, { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import BackButton from "~/components/BackButton";
 import { prisma } from "~/server/db";
@@ -13,10 +12,6 @@ import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-light.css";
 import Answer from "~/components/question/Answer";
-
-interface QParams extends ParsedUrlQuery {
-  questionid: string;
-}
 
 interface QuestionPageProps {
   question: Omit<Question, "created_at" | "updated_at"> & {
@@ -37,13 +32,13 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
 
   const deleteQuestion = api.question.deleteQuestion.useMutation();
   const createAnswer = api.answer.createAnswer.useMutation(); // Create answer mutation
-  const getAllAnswers = api.answer.getAllAnswers.useQuery({ questionId: question.id });
+  const getAllAnswers = api.answer.getAllAnswers.useQuery({
+    questionId: question.id,
+  });
 
   const Spinner = () => (
     <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-solid border-blue-500"></div>
   );
-  const created_at = new Date(question.created_at);
-  const updated_at = new Date(question.updated_at);
   const formattedCreatedAt = formatDistanceToNow(
     new Date(question.created_at),
     {
@@ -64,26 +59,22 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
   return (
     <div className="min-h-screen bg-gray-50">
       <BackButton />
-      <div className="mx-auto max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            {question.title}
-          </h1>
-          <span
-            className={`inline-block rounded px-2 py-1 text-xs font-semibold ${
-              question.solved
-                ? "bg-green-200 text-green-700"
-                : "bg-red-200 text-red-700"
-            }`}
-          >
-            {question.solved ? "Solved" : "Unsolved"}
-          </span>
-        </div>
+      <div className="mx-auto max-w-6xl py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mb-4 flex items-center justify-between"></div>
         <div className="mt-8 overflow-hidden bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              {question.title}
-            </h3>
+            <span className="flex  items-center justify-between text-3xl leading-6 text-gray-900">
+              <span>{question.title}</span>
+              <span
+                className={` px-2 py-1 text-xs font-medium ${
+                  question.solved
+                    ? "bg-green-200 text-green-700"
+                    : "bg-red-200 text-red-700"
+                }`}
+              > 
+                {question.solved ? "Solved" : "Unsolved"}
+              </span>
+            </span>
             <div className="mt-2 flex items-center text-sm text-gray-500 ">
               <p>
                 Created by {username} {formattedCreatedAt}
@@ -105,7 +96,7 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
                     className="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
                     onClick={async () => {
                       await deleteQuestion.mutateAsync({ id: question.id });
-                      router.back(); // Redirect to another page after deletion, for example, the homepage
+                      router.back();
                     }}
                   >
                     Delete question
@@ -125,7 +116,7 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
               </div>
             </dl>
             <div className="mt-8">
-              <h2 className="mb-4 text-2xl font-bold">Answers</h2>
+              <h2 className="mb-4 px-3 text-2xl font-bold ">Answers</h2>
               {getAllAnswers.data?.map((answer) => (
                 <Answer
                   key={answer.id}
@@ -134,17 +125,19 @@ const QuestionPage: NextPage<QuestionPageProps> = ({
                 />
               ))}
               <div className="mt-8">
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block px-4 text-sm font-medium text-gray-700">
                   Your Answer
                 </label>
-                <textarea
-                  className="w-full rounded-lg border px-3 py-2 text-sm text-gray-700 focus:outline-none"
-                  rows={4}
-                  value={answerContent}
-                  onChange={(e) => setAnswerContent(e.target.value)}
-                ></textarea>
+                <div className="px-2">
+                  <textarea
+                    className="w-full rounded-lg border px-2 py-2 text-sm text-gray-700 focus:outline-none"
+                    rows={4}
+                    value={answerContent}
+                    onChange={(e) => setAnswerContent(e.target.value)}
+                  ></textarea>
+                </div>
                 <button
-                  className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  className=" mt-4 w-full rounded-b bg-gray-500 px-4 py-2 text-white hover:bg-black"
                   onClick={handleSubmitAnswer}
                 >
                   Submit Answer

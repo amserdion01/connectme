@@ -5,7 +5,12 @@ import { api } from "~/utils/api";
 import BackButton from "../BackButton";
 
 function ServerForm() {
-  const createServer = api.server.createServer.useMutation();
+  const apicontext = api.useContext()
+  const createServer = api.server.createServer.useMutation({
+    async onSettled() {
+      await apicontext.server.getAllServers.invalidate()
+    },
+  });
 
   const [selectedSemester, setSelectedSemester] = useState("1");
   const [selectedYear, setSelectedYear] = useState("1");

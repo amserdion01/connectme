@@ -1,10 +1,8 @@
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 import React from "react";
-import HeaderBar from "~/components/HeaderBar";
 import { getLayout } from "~/components/Layout";
-import { NextPageWithLayout } from "~/pages/_app";
+import type { NextPageWithLayout } from "~/pages/_app";
 import { api } from "~/utils/api";
 
 interface QParams extends ParsedUrlQuery {

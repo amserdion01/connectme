@@ -38,27 +38,29 @@ export const userRouter = createTRPCRouter({
           role: z.enum(['Teacher', 'Student']),
         }),
       )
-      //change to 
       .mutation(async ({ ctx, input }) => {
         try {
+          // First, create the data
+          const newData = await ctx.prisma.data.create({
+            data: {
+              university: input.university,
+              faculty: input.faculty,
+              description: input.description,
+              year: input.year,
+              age: input.age,
+              role: input.role,
+              userId: ctx.session.user.id
+            },
+          });
+    
+          // Then, update the user with the new data ID
           const user = await ctx.prisma.user.update({
             where: { id: input.userId },
             data: {
-              Data: {
-                create: {
-                  // upsert!!!
-                  university: input.university,
-                  faculty: input.faculty,
-                  description: input.description,
-                  year: input.year,
-                  age: input.age,
-                  role: input.role,
-                },
-              },
+              dataId: newData.id, // Set the user's dataId to the new data's ID
             },
-            
           });
-          
+    
           return { message: 'User data saved successfully', user };
         } catch (error) {
           console.error(error);

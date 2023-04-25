@@ -47,6 +47,9 @@ export const authOptions: NextAuthOptions = {
     },
     
   },
+  pages:{
+    newUser:"/register"
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({

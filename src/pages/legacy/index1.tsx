@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import Logo from "../components/Logo";
-import Login from "../components/user/Login";
+import Logo from "../../components/Logo";
+import Login from "../../components/user/Login";
 
 const Home: NextPage = () => {
   return (

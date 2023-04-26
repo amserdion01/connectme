@@ -1,8 +1,11 @@
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import type { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { getLayout } from "~/components/Layout";
 import type { NextPageWithLayout } from "~/pages/_app";
+import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 
 interface QParams extends ParsedUrlQuery {
@@ -95,3 +98,41 @@ const ServerPage: NextPageWithLayout = () => {
 };
 ServerPage.getLayout=getLayout;
 export default ServerPage;
+
+
+
+export const getServerSideProps: GetServerSideProps<object> = async (
+  context
+) => {
+  const question = await prisma.question.findFirst({
+    where: { id: context.query.questionid as string },
+  });
+  if (!question) {
+    return { notFound: true };
+  }
+  const user = await prisma.user.findFirst({
+    where: { id: question.userId },
+    select: { name: true, id: true },
+  });
+  if (!user) {
+    return { notFound: true };
+  }
+  const { updated_at, created_at, ...rest } = question;
+
+  const session = await getSession(context);
+  const currentUser = await prisma.user.findFirst({
+    where: { id: session?.user?.id },
+  });
+
+  return {
+    props: {
+      question: {
+        ...rest,
+        updated_at: updated_at.toJSON(),
+        created_at: created_at.toJSON(),
+      },
+      username: user.name,
+      own: currentUser?.id === user.id,
+    },
+  };
+};

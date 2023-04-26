@@ -52,12 +52,10 @@ export const userRouter = createTRPCRouter({
               userId: ctx.session.user.id
             },
           });
-    
-          // Then, update the user with the new data ID
           const user = await ctx.prisma.user.update({
             where: { id: input.userId },
             data: {
-              dataId: newData.id, // Set the user's dataId to the new data's ID
+              dataId: newData.id, 
             },
           });
     
@@ -75,5 +73,14 @@ export const userRouter = createTRPCRouter({
         });
         return data;
       }),  
-  
+      deleteUser: protectedProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+          return ctx.prisma.user.delete({
+              where: {
+                  id: input.id,
+              },
+          });
+      }),      
+      
 });

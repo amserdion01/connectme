@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps<object> = async (
 ) => {
   try {
     const session = await getServerAuthSession(context);
-
+    
     if (!session?.user?.id) {
       throw new Error("User is not authenticated");
     }

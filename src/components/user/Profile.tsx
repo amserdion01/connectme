@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import BackButton from "../BackButton";
 import Image from "next/image";
 import type { Data, User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { BsArrowLeftCircle, BsArrowLeftCircleFill } from "react-icons/bs";
+import DeleteAccount from "./DeleteAcount";
 export interface ProfileProps {
   data: Data;
   user: User;
 }
  
 const Profile: React.FC<ProfileProps> = ({ data, user }) => {
+  console.log(data)
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -90,8 +91,7 @@ const Profile: React.FC<ProfileProps> = ({ data, user }) => {
           </div>
         </div>
       </div>
-
-      {/* Placeholder column */}
+      <DeleteAccount userId={user.id} />
       <div className="md:col-span-1"></div>
     </div>
   );

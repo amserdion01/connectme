@@ -56,23 +56,35 @@ export const questionRouter = createTRPCRouter({
             }
             return question
         }),
+    getQuestionNumber: protectedProcedure
+        .input(z.object({ id: z.string() })).query(async ({
+            input
+        }) => {
+            const questioncount = await prisma.question.count(
+                {
+                    where: { serverId: input.id },
+                })
+
+            return questioncount
+        }),
     markSolved: protectedProcedure
         .input(z.object({ id: z.string() }))
         .mutation(async ({ ctx, input }) => {
-          const question = await ctx.prisma.question.findUnique({
-            where: { id: input.id },
-          });
-    
-          if (!question) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: `Question not found (id = '${input.id}')`,
+            const question = await ctx.prisma.question.findUnique({
+                where: { id: input.id },
             });
-          }
-    
-          return ctx.prisma.question.update({
-            where: { id: input.id },
-            data: { solved: true },
-          });
+
+            if (!question) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: `Question not found (id = '${input.id}')`,
+                });
+            }
+
+            return ctx.prisma.question.update({
+                where: { id: input.id },
+                data: { solved: true },
+            });
         }),
+
 });

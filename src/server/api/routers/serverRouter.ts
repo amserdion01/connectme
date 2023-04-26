@@ -2,6 +2,7 @@ import { z } from "zod";
 import { prisma } from "../../db"
 import {
     createTRPCRouter,
+    protectedProcedure,
     publicProcedure,
 } from "~/server/api/trpc";
 
@@ -70,5 +71,19 @@ export const serverRouter = createTRPCRouter({
             await prisma.server.delete({ where: { id: input.id } });
             return { message: `Server with id '${input.id}' has been deleted.` };
         }),
+    addRaiting: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+        const serverToDelete = await prisma.server.findFirst({ where: { id: input.id } });
 
+        if (!serverToDelete) {
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: `Server not found (id ='(${input.id})' )`,
+            });
+        }
+
+        await prisma.server.delete({ where: { id: input.id } });
+        return { message: `Server with id '${input.id}' has been deleted.` };
+    }),
 })

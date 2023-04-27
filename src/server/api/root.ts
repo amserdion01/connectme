@@ -5,6 +5,7 @@ import { questionRouter } from "./routers/questionRouter";
 import { userRouter } from "./routers/userRouter";
 import { messageRouter } from "./routers/messageRouter";
 import { answerRouter } from "./routers/answearRouter";
+import { reviewRouter } from "./routers/reviewRouter";
 
 /**
  * This is the primary router for your server.
@@ -17,7 +18,8 @@ export const appRouter = createTRPCRouter({
   question: questionRouter,
   user: userRouter,
   message: messageRouter,
-  answer: answerRouter
+  answer: answerRouter,
+  review: reviewRouter
 });
 
 // export type definition of API

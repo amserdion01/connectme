@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ParsedUrlQuery } from "querystring";
 import React from "react";
@@ -85,13 +86,21 @@ const ServerPage: NextPageWithLayout = () => {
         </a>
       </div>
     )}
-    <div className="mb-4 flex justify-end">
+    <div className="mb-4 flex justify-between ">
+    <Link href={`/server/${server.data.id}/review`}>    
+      <div className="focus:shadow-outline w-22 rounded bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-700 focus:outline-none">
+          Review
+
+      </div>
+      </Link>
+      <div className="justify-end">
       <button
         className="focus:shadow-outline rounded bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-700 focus:outline-none"
         onClick={handleDeleteClick}
       >
         Delete
       </button>
+      </div>
     </div>
   </div>
 );

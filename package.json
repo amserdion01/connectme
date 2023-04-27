@@ -2,6 +2,10 @@
   "name": "connectme",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -39,6 +43,7 @@
     "rehype-highlight": "^6.0.0",
     "socket.io-client": "^4.6.1",
     "superjson": "1.9.1",
+    "ts-node": "^10.9.1",
     "ws": "^8.13.0",
     "zod": "^3.20.6"
   },

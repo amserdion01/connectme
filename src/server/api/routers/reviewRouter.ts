@@ -20,7 +20,7 @@ export const reviewRouter = createTRPCRouter({
 
     createReview: protectedProcedure
         .input(
-            z.object({ title: z.string(), raiting: z.number(),description: z.string(), serverId: z.string() })
+            z.object({ title: z.string(), rating: z.number(),description: z.string(), serverId: z.string() })
         )
         .mutation(async ({ ctx, input }) => {
             return ctx.prisma.review.create({
@@ -28,7 +28,7 @@ export const reviewRouter = createTRPCRouter({
                     title: input.title,
                     serverId: input.serverId,
                     description: input.description,
-                    raiting: input.raiting,
+                    rating: input.rating,
                     userId: ctx.session.user.id,
                 },
             });

@@ -25,7 +25,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ userId }) => {
 
   return (
     <button
-      className="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+      className="rounded bg-red-600 px-10 py-2 text-sm font-medium text-white hover:bg-red-700"
       onClick={handleDeleteAccount}
     >
       Delete Account

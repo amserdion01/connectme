@@ -11,6 +11,7 @@ import {
 } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import BackButton from "./BackButton";
 
 interface QParams extends ParsedUrlQuery {
   serverid: string;
@@ -31,33 +32,43 @@ const Buton: React.FC<{
 }) => (
   <Link href={href}>
     {isSelected ? (
-      <SelectedIconComponent className = "text-6xl">{buttonText}</SelectedIconComponent>
+      <SelectedIconComponent className="text-6xl">
+        {buttonText}
+      </SelectedIconComponent>
     ) : (
-      <IconComponent className = "text-5xl">{buttonText}</IconComponent>
+      <IconComponent className="text-5xl">{buttonText}</IconComponent>
     )}
-
   </Link>
 );
 
 const HeaderBar: React.FC = () => {
   const router = useRouter();
-
   const { serverid: id } = router.query as QParams;
   const [selectedIcon, setSelectedIcon] = React.useState<
     "about" | "message" | "questions"
   >("about");
-  React.useLayoutEffect(()=>{
-    const route = router.pathname
-    if (route.endsWith("chat")){
-      setSelectedIcon("message")
-      return 
-    } 
-    if (route.endsWith("question")){
-      setSelectedIcon("questions")
-      return 
-    } 
-    setSelectedIcon("about")
-  }, [router.pathname])
+  React.useLayoutEffect(() => {
+    const route = router.pathname;
+    if (route.endsWith("chat")) {
+      setSelectedIcon("message");
+      return;
+    }
+    if (route.endsWith("question")) {
+      setSelectedIcon("questions");
+      return;
+    }
+    setSelectedIcon("about");
+  }, [router.pathname]);
+  const [isHoveredBack, setIsHoveredBack] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHoveredBack(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHoveredBack(false);
+  };
+
+  const Icon = isHoveredBack ? BsArrowLeftCircleFill : BsArrowLeftCircle;
   return (
     <div className="flex w-full items-center justify-around rounded-lg bg-gray-100 p-4 shadow-md">
       <Buton
@@ -81,6 +92,15 @@ const HeaderBar: React.FC = () => {
         buttonText="Message"
         href={`/server/${id}/chat`}
       />
+      <button
+        type="button"
+        onClick={() => router.push("/server")}
+        className="absolute top-4 left-4 focus:outline-none"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Icon className="h-12 w-12" />
+      </button>
     </div>
   );
 };

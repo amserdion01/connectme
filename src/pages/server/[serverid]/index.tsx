@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import type { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { getLayout } from "~/components/Layout";
+import Reviews from "~/components/server/Reviews";
 import type { NextPageWithLayout } from "~/pages/_app";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
@@ -102,6 +103,7 @@ const ServerPage: NextPageWithLayout = () => {
       </button>
       </div>
     </div>
+    <Reviews id={id}/>
   </div>
 );
 };

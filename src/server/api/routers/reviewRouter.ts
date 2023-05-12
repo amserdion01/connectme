@@ -6,16 +6,36 @@ import {
 } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
+async function updateAverageRating(serverId: string): Promise<void> {
+    const reviews = await prisma.review.findMany({
+        where: {
+            serverId: serverId,
+        },
+    });
+
+    let average = 0;
+    if (reviews.length > 0) {
+        const sum = reviews.reduce((total, review) => total + review.rating, 0);
+        average = sum / reviews.length;
+    }
+
+    await prisma.server.update({
+        where: { id: serverId },
+        data: { rating: average },
+    });
+}
 
 export const reviewRouter = createTRPCRouter({
     deleteReview: protectedProcedure
         .input(z.object({ id: z.string() }))
         .mutation(async ({ ctx, input }) => {
+            
             return ctx.prisma.review.delete({
                 where: {
                     id: input.id,
                 },
             });
+
         }),
 
     createReview: protectedProcedure
@@ -23,7 +43,7 @@ export const reviewRouter = createTRPCRouter({
             z.object({ title: z.string(), rating: z.number(),description: z.string(), serverId: z.string() })
         )
         .mutation(async ({ ctx, input }) => {
-            return ctx.prisma.review.create({
+            const newReview = await ctx.prisma.review.create({
                 data: {
                     title: input.title,
                     serverId: input.serverId,
@@ -32,14 +52,24 @@ export const reviewRouter = createTRPCRouter({
                     userId: ctx.session.user.id,
                 },
             });
+            await updateAverageRating(input.serverId);
+            return newReview;
         }),
 
     getAllReviews: protectedProcedure
         .input(z.object({ serverId: z.string() }))
-        .query(({ ctx, input }) => {
-            return ctx.prisma.review.findMany({
+        .query(({  input }) => {
+            return prisma.review.findMany({
                 where: {
                     serverId: input.serverId,
+                },
+                include: {
+                    User: {
+                        select: {
+                            name: true,
+                            image: true
+                        }
+                    }
                 },
             });
         }),
@@ -60,3 +90,4 @@ export const reviewRouter = createTRPCRouter({
         
 
 });
+
